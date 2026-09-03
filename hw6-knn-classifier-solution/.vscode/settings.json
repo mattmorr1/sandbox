@@ -1,0 +1,9 @@
+{
+    //Should all change to true on deploy
+    "files.exclude": {
+        ".autograder/": true,
+        ".github/": true,
+        ".vscode/": true,
+        "**/tests.rs": true,
+    },
+}

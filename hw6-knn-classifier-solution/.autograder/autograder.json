@@ -1,0 +1,90 @@
+[
+  {
+    "name": "sort_by_distance_test_cases",
+    "docstring": "Tests sort_by_distance preserves labels and orders by distance.",
+    "timeout": 10,
+    "points": 1,
+    "min_commits": null,
+    "manifest_path": null
+  },
+  {
+    "name": "k_nearest_labels_test_cases",
+    "docstring": "Tests k_nearest_labels with various k values including edge cases.",
+    "timeout": 10,
+    "points": 1,
+    "min_commits": null,
+    "manifest_path": null
+  },
+  {
+    "name": "majority_vote_test_cases",
+    "docstring": "Tests majority_vote with various label distributions.",
+    "timeout": 10,
+    "points": 1,
+    "min_commits": null,
+    "manifest_path": null
+  },
+  {
+    "name": "predict_one_test_cases",
+    "docstring": "Tests predict_one correctly classifies points near each cluster.",
+    "timeout": 10,
+    "points": 1,
+    "min_commits": null,
+    "manifest_path": null
+  },
+  {
+    "name": "predict_all_test_cases",
+    "docstring": "Tests predict_all on multiple test points including empty set.",
+    "timeout": 10,
+    "points": 1,
+    "min_commits": null,
+    "manifest_path": null
+  },
+  {
+    "name": "accuracy_test_cases",
+    "docstring": "Tests accuracy with various prediction/truth combinations.",
+    "timeout": 10,
+    "points": 1,
+    "min_commits": null,
+    "manifest_path": null
+  },
+  {
+    "name": "confusion_matrix_binary_test_cases",
+    "docstring": "Tests confusion_matrix_binary for TP, TN, FP, FN counts.",
+    "timeout": 10,
+    "points": 1,
+    "min_commits": null,
+    "manifest_path": null
+  },
+  {
+    "name": "test_rustfmt_passes",
+    "docstring": "Checks that code is properly formatted with cargo fmt.",
+    "timeout": 10,
+    "points": 1,
+    "min_commits": null,
+    "manifest_path": null
+  },
+  {
+    "name": "test_clippy_passes",
+    "docstring": "Checks that code passes clippy lints with no warnings.",
+    "timeout": 10,
+    "points": 1,
+    "min_commits": null,
+    "manifest_path": null
+  },
+  {
+    "name": "test_commit_count_passes",
+    "docstring": "Ensures at least 10 commits (1 per subproblem branch + 1 merge each).",
+    "timeout": 10,
+    "points": 1,
+    "min_commits": 10,
+    "manifest_path": null
+  },
+  {
+    "name": "test_branch_count_passes",
+    "docstring": "Ensures at least 6 branches (main + 5 subproblem feature branches).",
+    "timeout": 10,
+    "points": 1,
+    "min_commits": null,
+    "manifest_path": null
+  }
+]

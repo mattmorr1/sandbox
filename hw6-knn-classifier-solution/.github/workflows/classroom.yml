@@ -1,0 +1,162 @@
+name: Autograding Tests
+on:
+  repository_dispatch:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 25 4 *'
+    - cron: '0 6 27 4 *'
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy,rustfmt
+
+      - name: Run cargo run (demo - not autograded)
+        run: cargo run
+        continue-on-error: true
+        timeout-minutes: 2
+
+      - name: sort_by_distance_test_cases
+        id: sort-by-distance-test-cases
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "sort_by_distance_test_cases"
+          setup-command: ""
+          command: "cargo test sort_by_distance_test_cases"
+          timeout: 10
+          max-score: 1
+
+      - name: k_nearest_labels_test_cases
+        id: k-nearest-labels-test-cases
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "k_nearest_labels_test_cases"
+          setup-command: ""
+          command: "cargo test k_nearest_labels_test_cases"
+          timeout: 10
+          max-score: 1
+
+      - name: majority_vote_test_cases
+        id: majority-vote-test-cases
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "majority_vote_test_cases"
+          setup-command: ""
+          command: "cargo test majority_vote_test_cases"
+          timeout: 10
+          max-score: 1
+
+      - name: predict_one_test_cases
+        id: predict-one-test-cases
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "predict_one_test_cases"
+          setup-command: ""
+          command: "cargo test predict_one_test_cases"
+          timeout: 10
+          max-score: 1
+
+      - name: predict_all_test_cases
+        id: predict-all-test-cases
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "predict_all_test_cases"
+          setup-command: ""
+          command: "cargo test predict_all_test_cases"
+          timeout: 10
+          max-score: 1
+
+      - name: accuracy_test_cases
+        id: accuracy-test-cases
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "accuracy_test_cases"
+          setup-command: ""
+          command: "cargo test accuracy_test_cases"
+          timeout: 10
+          max-score: 1
+
+      - name: confusion_matrix_binary_test_cases
+        id: confusion-matrix-binary-test-cases
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "confusion_matrix_binary_test_cases"
+          setup-command: ""
+          command: "cargo test confusion_matrix_binary_test_cases"
+          timeout: 10
+          max-score: 1
+
+      - name: test_rustfmt_passes
+        id: test-rustfmt-passes
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_rustfmt_passes"
+          setup-command: ""
+          command: "cargo test --test test_clippy_and_fmt test_rustfmt_passes"
+          timeout: 10
+          max-score: 1
+
+      - name: test_clippy_passes
+        id: test-clippy-passes
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_clippy_passes"
+          setup-command: ""
+          command: "cargo test --test test_clippy_and_fmt test_clippy_passes"
+          timeout: 10
+          max-score: 1
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: test_commit_count_passes
+        id: commit-count
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_commit_count_passes"
+          setup-command: ""
+          command: "cargo test --test test_git_requirements test_commit_count_passes"
+          timeout: 10
+          max-score: 1
+
+      - name: test_branch_count_passes
+        id: branch-count
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_branch_count_passes"
+          setup-command: ""
+          command: "cargo test --test test_git_requirements test_branch_count_passes"
+          timeout: 10
+          max-score: 1
+
+      - name: Autograding Reporter
+        uses: classroom-resources/autograding-grading-reporter@v1
+        env:
+          SORT-BY-DISTANCE-TEST-CASES_RESULTS: "${{steps.sort-by-distance-test-cases.outputs.result}}"
+          K-NEAREST-LABELS-TEST-CASES_RESULTS: "${{steps.k-nearest-labels-test-cases.outputs.result}}"
+          MAJORITY-VOTE-TEST-CASES_RESULTS: "${{steps.majority-vote-test-cases.outputs.result}}"
+          PREDICT-ONE-TEST-CASES_RESULTS: "${{steps.predict-one-test-cases.outputs.result}}"
+          PREDICT-ALL-TEST-CASES_RESULTS: "${{steps.predict-all-test-cases.outputs.result}}"
+          ACCURACY-TEST-CASES_RESULTS: "${{steps.accuracy-test-cases.outputs.result}}"
+          CONFUSION-MATRIX-BINARY-TEST-CASES_RESULTS: "${{steps.confusion-matrix-binary-test-cases.outputs.result}}"
+          TEST-RUSTFMT-PASSES_RESULTS: "${{steps.test-rustfmt-passes.outputs.result}}"
+          TEST-CLIPPY-PASSES_RESULTS: "${{steps.test-clippy-passes.outputs.result}}"
+          COMMIT-COUNT_RESULTS: "${{steps.commit-count.outputs.result}}"
+          BRANCH-COUNT_RESULTS: "${{steps.branch-count.outputs.result}}"
+        with:
+          runners: sort-by-distance-test-cases,k-nearest-labels-test-cases,majority-vote-test-cases,predict-one-test-cases,predict-all-test-cases,accuracy-test-cases,confusion-matrix-binary-test-cases,test-rustfmt-passes,test-clippy-passes,commit-count,branch-count
